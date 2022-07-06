@@ -31,6 +31,12 @@ func initRouter() *gin.Engine {
 		secured.GET("/attendance", controllers.AttendanceByUser)
 		secured.PUT("/check-in", controllers.CheckIn)
 		secured.PUT("/check-out", controllers.CheckOut)
+
+		secured.GET("/activity", controllers.ActivityByUser)
+		secured.GET("/activity/:date", controllers.ActivityByUserByDate)
+		secured.POST("/activity", controllers.Store)
+		secured.PATCH("/activity/:id", controllers.Update)
+		secured.DELETE("/activity/:id", controllers.Destroy)
 	}
 
 	return router
