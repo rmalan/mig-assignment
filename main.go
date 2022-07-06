@@ -28,6 +28,7 @@ func initRouter() *gin.Engine {
 
 	secured := router.Use(middlewares.Auth())
 	{
+		secured.DELETE("/auth/logout", controllers.Logout)
 		secured.GET("/attendance", controllers.AttendanceByUser)
 		secured.PUT("/check-in", controllers.CheckIn)
 		secured.PUT("/check-out", controllers.CheckOut)

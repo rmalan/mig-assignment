@@ -26,6 +26,7 @@ func DbConnect() {
 func DbMigrate() {
 	Instance.AutoMigrate(&models.Activity{})
 	Instance.AutoMigrate(&models.Attendance{})
+	Instance.AutoMigrate(&models.Authentication{})
 	Instance.AutoMigrate(&models.User{})
 
 	log.Println("Database Migration Completed!")

@@ -5,6 +5,7 @@ import (
 	"rmalan/go/mig-assignment/auth"
 	"rmalan/go/mig-assignment/config"
 	"rmalan/go/mig-assignment/models"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -71,5 +72,24 @@ func Login(context *gin.Context) {
 		return
 	}
 
+	authentication := models.Authentication{Token: tokenString}
+	recordAuth := config.Instance.Create(&authentication)
+	if recordAuth.Error != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": recordAuth.Error.Error()})
+		context.Abort()
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{"token": tokenString})
+}
+
+func Logout(context *gin.Context) {
+	authHeader := context.GetHeader("Authorization")
+	bearerToken := strings.Split(authHeader, " ")
+
+	var authentication models.Authentication
+
+	config.Instance.Where("token = ?", bearerToken[1]).Delete(&authentication)
+
+	context.JSON(http.StatusOK, gin.H{"message": "success"})
 }

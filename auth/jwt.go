@@ -2,6 +2,8 @@ package auth
 
 import (
 	"errors"
+	"rmalan/go/mig-assignment/config"
+	"rmalan/go/mig-assignment/models"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -33,6 +35,13 @@ func GenerateJWT(id uint, username string, email string) (tokenString string, er
 }
 
 func ValidateToken(signedToken string) (err error) {
+	var authentication models.Authentication
+
+	if errToken := config.Instance.Where("token = ?", signedToken).First(&authentication).Error; errToken != nil {
+		err = errors.New("invalid token")
+		return
+	}
+
 	token, err := jwt.ParseWithClaims(
 		signedToken,
 		&JWTClaim{},
