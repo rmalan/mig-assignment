@@ -16,7 +16,7 @@ func main() {
 
 	// Initialize Router
 	router := initRouter()
-	router.Run(":8080")
+	router.Run()
 }
 
 func initRouter() *gin.Engine {
