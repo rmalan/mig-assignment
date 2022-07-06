@@ -3,6 +3,7 @@ package main
 import (
 	"rmalan/go/mig-assignment/config"
 	"rmalan/go/mig-assignment/controllers"
+	"rmalan/go/mig-assignment/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,6 +25,13 @@ func initRouter() *gin.Engine {
 	router.GET("/", controllers.Home)
 	router.POST("/auth/register", controllers.RegisterUser)
 	router.POST("/auth/login", controllers.Login)
+
+	secured := router.Use(middlewares.Auth())
+	{
+		secured.GET("/attendance", controllers.AttendanceByUser)
+		secured.PUT("/check-in", controllers.CheckIn)
+		secured.PUT("/check-out", controllers.CheckOut)
+	}
 
 	return router
 }
