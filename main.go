@@ -22,6 +22,8 @@ func initRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/", controllers.Home)
+	router.POST("/auth/register", controllers.RegisterUser)
+	router.POST("/auth/login", controllers.Login)
 
 	return router
 }
